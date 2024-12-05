@@ -32,7 +32,7 @@ pub fn part_two(input: &str) -> Option<u32> {
                 .find(|&&idx| idx < position)           // find all donts before the current match
                 .map_or(true, |&dont_position| {            // no don't before: keep; if found:
                     do_idxs.iter().rev()
-                        .find(|&&idx2| idx2 > dont_position && idx2 < position) // find if there is a do between the dont and the current match
+                        .find(|&&idx| idx > dont_position && idx < position) // find if there is a do between the dont and the current match
                         .is_some()      // if there is a do between the dont and the match, keep.
                 })
         })
