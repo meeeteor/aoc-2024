@@ -58,12 +58,6 @@ pub fn part_two(input: &str) -> Option<u32> {
                         }
                         None => {}
                     }
-                    // if let mut rule = rule_map.get(b_val) {
-                    //     if rule.iter().contains(a_val) {
-                    //         new_update.swap(*a_idx, b_idx);
-                    //         swapped=true;
-                    //     }
-                    // }
                 });
                 update = new_update;
             }
