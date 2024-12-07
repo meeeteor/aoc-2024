@@ -1,3 +1,5 @@
+use rayon::prelude::*;
+
 advent_of_code::solution!(6);
 
 pub fn part_one(input: &str) -> Option<u32> {
@@ -44,17 +46,21 @@ pub fn part_one(input: &str) -> Option<u32> {
 pub fn part_two(input: &str) -> Option<u32> {
     let lines: Vec<String> = input.lines().map(|line|line.to_string()).collect::<Vec<_>>();
 
-    let mut count = 0;
-    for i in 0..lines.len() {
-        println!("Simulating options for line {}...", i);
-        for j in 0..lines[i].len() {
-            if lines[i].get(j..(j+1)).unwrap() == "^" || lines[i].get(j..(j+1)).unwrap() == "#" {continue}
-
-            let mut clone = lines.clone();
-            clone[i].replace_range(j..(j+1), "#");
-            count += simulate(clone) as i32;
-        }
-    }
+    let count: i32 = (0..lines.len())
+        .into_par_iter()
+        .map(|i|
+            (0..lines[i].len()
+                .filter(|&j| {
+                    let char = lines[i].chars().nth(j).unwrap();
+                    char != '^' && char != '#'
+                })
+                .map(|j| {
+                    let mut clone = lines.clone();
+                    clone[i].replace_range(j..(j+1), "#");
+                    simulate(clone) as i32
+                }))
+            .sum::<i32>())
+        .sum();
 
     return Some(count as u32);
 
