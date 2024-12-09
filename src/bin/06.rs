@@ -49,7 +49,7 @@ pub fn part_two(input: &str) -> Option<u32> {
     let count: i32 = (0..lines.len())
         .into_par_iter()
         .map(|i|
-            (0..lines[i].len()
+            (0..lines[i].len())
                 .filter(|&j| {
                     let char = lines[i].chars().nth(j).unwrap();
                     char != '^' && char != '#'
@@ -58,8 +58,8 @@ pub fn part_two(input: &str) -> Option<u32> {
                     let mut clone = lines.clone();
                     clone[i].replace_range(j..(j+1), "#");
                     simulate(clone) as i32
-                }))
-            .sum::<i32>())
+                })
+                .sum::<i32>())
         .sum();
 
     return Some(count as u32);
